@@ -1,9 +1,7 @@
 import os
 import openai
-import requests
 import urllib.request
 from github import Github
-
 
 # This is the main entrypoint to the action
 
@@ -37,9 +35,7 @@ def main():
         stop=None,
         temperature=0.7,
     )
-
-
-
+    
     # Post feedback as a comment on the PR
     feedback = response.choices[0].text.strip()
     if feedback:
