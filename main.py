@@ -1,13 +1,14 @@
 import os
 import openai
 from github import Github
+from dotenv import load_dotenv
 
 # This is the main entrypoint to the action
 
 def main():
     # Get input parameters from the workflow
     github_token = os.getenv("GITHUB_TOKEN")
-    openai_api_key = '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'
+    openai_api_key = os.getenv("OPENAI_API_KEY")
 
     # Initialize GitHub API client
     gh_client = Github(github_token)
@@ -24,17 +25,18 @@ def main():
     # Extract PR information and send it to OpenAI API
     prompt = f"Review this code for improvements and security vulnerabilities:\n\n{pr.diff_url}"
 
-    response = openai.Completion.create(
-        model="text-davinci-003",
-        prompt=prompt,
-        max_tokens=150,
-        n=1,
-        stop=None,
-        temperature=0.7,
-    )
+    # response = openai.Completion.create(
+    #     model="text-davinci-003",
+    #     prompt=prompt,
+    #     max_tokens=150,
+    #     n=1,
+    #     stop=None,
+    #     temperature=0.7,
+    # )
 
     # Post feedback as a comment on the PR
-    feedback = response.choices[0].text.strip()
+    # feedback = response.choices[0].text.strip()
+    feedback = "This is a test"
     if feedback:
         pr.create_issue_comment(f"🤖 ChatGPT Code Review:\n\n{feedback}")
 
