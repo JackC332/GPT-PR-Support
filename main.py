@@ -28,7 +28,7 @@ def main():
     code_lines = [line for line in lines if line.startswith("+")]
 
     # Send relevant lines of code to the OpenAI API
-    prompt = f"Review the following lines of code for improvements and security vulnerabilities:\n\n{'\n'.join(code_lines)}"
+    prompt = "Review the following lines of code for improvements and security vulnerabilities:\n\n" + "\n".join(code_lines)
 
     response = openai.Completion.create(
         model="text-davinci-003",
@@ -38,6 +38,7 @@ def main():
         stop=None,
         temperature=0.7,
     )
+
 
     # Post feedback as a comment on the PR
     feedback = response.choices[0].text.strip()
