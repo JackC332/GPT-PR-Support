@@ -18,7 +18,7 @@ def main():
     # Initialize OpenAI API client
     openai.api_key = openai_api_key
 
-    # Get PR information
+    # Get PR information and extract relevant lines of code
     repo_name = os.getenv("GITHUB_REPOSITORY")
     pr_number = int(os.getenv("GITHUB_PULL_NUMBER"))
     repo = gh_client.get_repo(repo_name)
@@ -32,7 +32,6 @@ def main():
     # Send relevant lines of code to the OpenAI API
     prompt = f"Review the following lines of code for improvements and security vulnerabilities:\n\n{'\n'.join(code_lines)}"
 
-
     response = openai.Completion.create(
         model="text-davinci-003",
         prompt=prompt,
@@ -41,6 +40,7 @@ def main():
         stop=None,
         temperature=0.7,
     )
+
 
 
 
