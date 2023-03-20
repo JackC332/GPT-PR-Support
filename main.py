@@ -7,7 +7,7 @@ from github import Github
 def main():
     # Get input parameters from the workflow
     github_token = os.getenv("GITHUB_TOKEN")
-    openai_api_key = os.getenv("OPEN_API_KEY")
+    openai_api_key = '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'
 
     # Initialize GitHub API client
     gh_client = Github(github_token)
@@ -16,9 +16,8 @@ def main():
     openai.api_key = openai_api_key
 
     # Get PR information
-    repo_name = os.getenv("GITHUB_REPOSITORY")
-    pr_number = int(os.getenv("GITHUB_PULL_NUMBER"))
-    print(repo_name, pr_number)
+    repo_name = "JackC332/GPT-PR-Support"
+    pr_number = 1
     repo = gh_client.get_repo(repo_name)
     pr = repo.get_pull(pr_number)
 
@@ -26,7 +25,7 @@ def main():
     prompt = f"Review this code for improvements and security vulnerabilities:\n\n{pr.diff_url}"
 
     response = openai.Completion.create(
-        model="gpt-3.5-turbo",
+        model="text-davinci-003",
         prompt=prompt,
         max_tokens=150,
         n=1,
