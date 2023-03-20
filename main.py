@@ -16,8 +16,8 @@ def main():
     openai.api_key = openai_api_key
 
     # Get PR information
-    repo_name = "JackC332/GPT-PR-Support"
-    pr_number = 1
+    repo_name = os.getenv("GITHUB_REPOSITORY")
+    pr_number = int(os.getenv("GITHUB_PULL_NUMBER"))
     repo = gh_client.get_repo(repo_name)
     pr = repo.get_pull(pr_number)
 
