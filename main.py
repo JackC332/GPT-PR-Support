@@ -49,8 +49,19 @@ def main():
 
     # Post feedback as a comment on the PR
     feedback = response.choices[0].text.strip()
+
     if feedback:
-        pr.create_issue_comment(f"🤖 ChatGPT Code Review:\n\n{feedback}")
+        repo_name = os.getenv("GITHUB_REPOSITORY")
+        pr_number = int(os.getenv("GITHUB_PULL_NUMBER"))
+        repo = gh_client.get_repo(repo_name)
+        pr = repo.get_pull(pr_number)
+        file_name = pr.get_files()[0].filename
+        file_sha = pr.get_files()[0].sha
+        line_numbers = [index + 1 for index, line in enumerate(lines) if line in code_lines]
+        comment_body = "🤖 ChatGPT Code Review:\n\n" + feedback
+
+        for line_number in line_numbers:
+            pr.create_review_comment(comment_body, file_name, line_number, commit_id=file_sha)
 
 
 if __name__ == "__main__":
