@@ -30,7 +30,7 @@ def main():
     with urllib.request.urlopen(file_url) as f:
         file_content = f.read().decode('utf-8')
 
-    lines = file_content.split("\n")
+    lines = file_content.split("\n") 
     code_lines = [line for line in lines if line.startswith("+")]
 
     # Send relevant lines of code to the OpenAI API
@@ -45,14 +45,12 @@ def main():
         temperature=0.7,
     )
 
-
-
     # Post feedback as a comment on the PR
     feedback = response.choices[0].text.strip()
 
     if feedback:
-        repo_name = os.getenv("GITHUB_REPOSITORY")
-        pr_number = int(os.getenv("GITHUB_PULL_NUMBER"))
+        repo_name = repo_name
+        pr_number = pr_number
         repo = gh_client.get_repo(repo_name)
         pr = repo.get_pull(pr_number)
         file_name = pr.get_files()[0].filename
