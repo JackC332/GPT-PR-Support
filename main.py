@@ -23,8 +23,14 @@ def main():
     pr = repo.get_pull(pr_number)
 
     # Extract only the relevant lines of code from the diff
-    diff = pr.get_files()[0].get_patch()
-    lines = diff.split("\n")
+    file_name = pr.get_files()[0].filename
+    file_url = pr.get_files()[0].raw_url
+    raw_file_url = file_url.replace('/raw/', '/').replace(f'/{file_name}', '')
+
+    with urllib.request.urlopen(file_url) as f:
+        file_content = f.read().decode('utf-8')
+
+    lines = file_content.split("\n")
     code_lines = [line for line in lines if line.startswith("+")]
 
     # Send relevant lines of code to the OpenAI API
@@ -38,6 +44,7 @@ def main():
         stop=None,
         temperature=0.7,
     )
+
 
 
     # Post feedback as a comment on the PR
