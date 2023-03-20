@@ -1,6 +1,9 @@
 import os
 import openai
+import requests
+import urllib.request
 from github import Github
+
 
 # This is the main entrypoint to the action
 
@@ -21,8 +24,10 @@ def main():
     repo = gh_client.get_repo(repo_name)
     pr = repo.get_pull(pr_number)
 
+    diff = urllib.request.urlopen(pr.diff_url).read()  
+
     # Extract PR information and send it to OpenAI API
-    prompt = f"Review this code for improvements and security vulnerabilities:\n\n{pr.diff_url}"
+    prompt = f"Review this code for improvements and security vulnerabilities:\n\n{diff}"
 
     response = openai.Completion.create(
         model="text-davinci-003",
@@ -32,6 +37,8 @@ def main():
         stop=None,
         temperature=0.7,
     )
+
+
 
     # Post feedback as a comment on the PR
     feedback = response.choices[0].text.strip()
