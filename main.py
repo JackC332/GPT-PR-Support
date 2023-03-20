@@ -43,7 +43,6 @@ def main():
 
 
 
-
     # Post feedback as a comment on the PR
     feedback = response.choices[0].text.strip()
     if feedback:
