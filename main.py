@@ -7,7 +7,7 @@ from github import Github
 def main():
     # Get input parameters from the workflow
     github_token = os.getenv("GITHUB_TOKEN")
-    openai_api_key = os.getenv("OPENAI_API_KEY")
+    openai_api_key = os.getenv("OPEN_API_KEY")
 
     # Initialize GitHub API client
     gh_client = Github(github_token)
