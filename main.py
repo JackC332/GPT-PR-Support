@@ -1,7 +1,6 @@
 import os
 import openai
 from github import Github
-from dotenv import load_dotenv
 
 # This is the main entrypoint to the action
 
@@ -25,18 +24,17 @@ def main():
     # Extract PR information and send it to OpenAI API
     prompt = f"Review this code for improvements and security vulnerabilities:\n\n{pr.diff_url}"
 
-    # response = openai.Completion.create(
-    #     model="text-davinci-003",
-    #     prompt=prompt,
-    #     max_tokens=150,
-    #     n=1,
-    #     stop=None,
-    #     temperature=0.7,
-    # )
+    response = openai.Completion.create(
+        model="text-davinci-003",
+        prompt=prompt,
+        max_tokens=150,
+        n=1,
+        stop=None,
+        temperature=0.7,
+    )
 
     # Post feedback as a comment on the PR
-    # feedback = response.choices[0].text.strip()
-    feedback = "This is a test"
+    feedback = response.choices[0].text.strip()
     if feedback:
         pr.create_issue_comment(f"🤖 ChatGPT Code Review:\n\n{feedback}")
 
