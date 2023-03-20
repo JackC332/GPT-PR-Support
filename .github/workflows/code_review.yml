@@ -24,7 +24,7 @@ jobs:
       - name: Run ChatGPT Code Review
         run: python main.py
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.BOO_BABA }}
           OPEN_API_KEY: ${{ secrets.OPEN_API_KEY }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_PULL_NUMBER: ${{ github.event.pull_request.number }}
